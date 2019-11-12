@@ -10,7 +10,7 @@ Perusversiossa peliä voi käyttää vain yksi käyttäjä.
 
 ## Käyttöliittymäluonnos
 
-![alt text](https://github.com/mvarilo/otm-harjoitustyo/blob/master/dokumentaatio/kayttoliittyma.jpg)
+![alt text](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/kayttoliittyma.jpg)
 
 ## Perusversion tarjoama toiminnallisuus
 - Käyttöliittymä, jossa näkee pelikentän, omat resurssit, tukikohdan ottaman vahingon ja selviydyttyjen hyökkäysten määrän

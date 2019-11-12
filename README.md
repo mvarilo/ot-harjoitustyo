@@ -16,15 +16,15 @@ Jos et saa projektia toimimaan koneellasi, saat apua pajassa.
 
 ## Dokumentaatio
 
-[Käyttöohje]()
+Käyttöohje
 
 [Vaatimusmäärittely](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
-[Arkkitehtuurikuvaus]()
+Arkkitehtuurikuvaus
 
-[Testausdokumentti]()
+Testausdokumentti
 
-[Työaikakirjanpito]()
+Työaikakirjanpito
 
 ## Releaset
 
