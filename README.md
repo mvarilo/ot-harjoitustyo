@@ -12,8 +12,6 @@ Jos käytät Javan versiota 8 ja tämä koodi _ei toimi_, niin repositorion _haa
 
 JavaFX:n liittyvistä ongelmista ja niiden kiertämisestä lisää [täällä](https://github.com/mluukkai/ohjelmistotekniikka-syksy-2019/blob/master/web/maven.md#javafx).
 
-Jos et saa projektia toimimaan koneellasi, saat apua pajassa.
-
 ## Dokumentaatio
 
 Käyttöohje
