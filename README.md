@@ -22,7 +22,7 @@ Arkkitehtuurikuvaus
 
 Testausdokumentti
 
-Työaikakirjanpito
+[Työaikakirjanpito](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
 
 ## Releaset
 
@@ -52,7 +52,7 @@ Komento
 mvn package
 ```
 
-generoi hakemistoon _target_ suoritettavan jar-tiedoston _OtmTodoApp-1.0-SNAPSHOT.jar_
+generoi hakemistoon _target_ suoritettavan jar-tiedoston _TowerDef 1.0-SNAPSHOT_
 
 ### JavaDoc
 
