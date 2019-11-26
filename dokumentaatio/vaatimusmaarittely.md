@@ -13,12 +13,12 @@ Perusversiossa peliä voi käyttää vain yksi käyttäjä.
 ![alt text](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/kayttoliittyma.jpg)
 
 ## Perusversion tarjoama toiminnallisuus
-- Käyttöliittymä, jossa näkee pelikentän, omat resurssit, tukikohdan ottaman vahingon ja selviydyttyjen hyökkäysten määrän
-- Pelaaja voi ostaa ja laittaa tykkejä kentälle
-- Viholliset liikkuvat reittiä pitkin aaltoina tukikohtaan
-- Hyökkäysaaltojen välissä on tauko
-- Tykit ampuvat vihollisia
-- Peli päättyy jos tukikohta tuhoutuu
+- [x] Käyttöliittymä, jossa näkee pelikentän, omat resurssit, tukikohdan ottaman vahingon ja selviydyttyjen hyökkäysten määrän
+- [x] Pelaaja voi ostaa ja laittaa tykkejä kentälle
+- [ ] Viholliset liikkuvat reittiä pitkin aaltoina tukikohtaan
+- [ ] Hyökkäysaaltojen välissä on tauko
+- [ ] Tykit ampuvat vihollisia
+- [ ] Peli päättyy jos tukikohta tuhoutuu
 
 
 ## Jatkokehitysideoita

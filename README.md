@@ -8,7 +8,7 @@ Käyttöohje
 
 [Vaatimusmäärittely](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
-Arkkitehtuurikuvaus
+[Arkkitehtuurikuvaus](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
 Testausdokumentti
 

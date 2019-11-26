@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mvarilo.towerdef;
+package towerdef.domain;
 
 /**
  *
@@ -12,10 +12,25 @@ package mvarilo.towerdef;
 class Tower {
 
     private int power;
-    private int range;
+    private double range;
+    private double x;
+    private double y;
 
     public Tower() {
         this.power = 20;
         this.range = 20;
+    }
+
+    Tower(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    double getPositionX() {
+        return this.x;
+    }
+
+    double getPositionY() {
+        return this.y;
     }
 }
