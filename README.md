@@ -16,6 +16,8 @@ Testausdokumentti
 
 ## Releaset
 
+[Viikko 5](https://github.com/mvarilo/ot-harjoitustyo/releases/tag/viikko5)
+
 ## Komentorivitoiminnot
 
 ### Testaus
