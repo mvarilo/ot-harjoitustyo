@@ -9,7 +9,7 @@
     <children>
         <Button fx:id="button" layoutX="14.0" layoutY="461.0" onAction="#handleButtonTower" text="Buy a Tower" />
         <Label fx:id="label" layoutX="116.0" layoutY="431.0" minHeight="16" minWidth="69" prefHeight="55.0" prefWidth="396.0" />
-        <Canvas fx:id="canvas" height="402.0" layoutX="14.0" layoutY="50.0" onMouseReleased="#drawTower" width="576.0" />
+        <Canvas fx:id="canvas" height="400.0" layoutX="14.0" layoutY="50.0" onMouseReleased="#drawTower" width="600.0" />
         <Label fx:id="hp" layoutX="14.0" layoutY="14.0" text="HP: " />
         <Label fx:id="gold" layoutX="66.0" layoutY="14.0" text="Gold:" />
       <Label fx:id="wave" layoutX="123.0" layoutY="14.0" text="Wave:" />

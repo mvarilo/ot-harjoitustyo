@@ -16,15 +16,20 @@ public class TowerDefense {
 
     private int money;
     private List<Tower> towers;
-    private int wave;
     private int health;
+    private static Board board;
+    private List<Enemy> enemies;
+    private Wave wave;
 
     public TowerDefense() {
         this.money = 40;
         this.towers = new ArrayList<>();
-        this.wave = 1;
         this.health = 100;
+        TowerDefense.board = new Board();
+        priorityQueue();
 
+        this.enemies = new ArrayList<>();
+        this.wave = new Wave();
     }
 
     public int getMoney() {
@@ -45,7 +50,7 @@ public class TowerDefense {
     }
 
     public int getWaveNumber() {
-        return this.wave;
+        return this.wave.getNumber();
     }
 
     public int getHealth() {
@@ -72,15 +77,51 @@ public class TowerDefense {
     }
 
     public boolean buyTower(double x, double y) {
-        towers.add(new Tower(x, y));
-        if (this.money >= 5) {
-            this.money = this.money - 5;
-            return true;
+        if (board.getTilePosition(x, y) == Tile.WALL
+                && board.getTilePosition(x + 10, y + 10) == Tile.WALL
+                && board.getTilePosition(x - 3, y - 3) == Tile.WALL) {
+            if (this.money >= 5) {
+                this.money = this.money - 5;
+                towers.add(new Tower(x, y));
+                board.setTower(x, y);
+                return true;
+            }
         }
         return false;
     }
 
     public void newWave() {
-        this.wave++;
+        this.wave.update();
+    }
+
+    public Board getBoard() {
+        return this.board;
+    }
+
+    public void update(double deltaTime) {
+        spawnEnemies(deltaTime);
+        moveEnemies(deltaTime);
+    }
+
+    private void spawnEnemies(double deltaTime) {
+        Enemy newEnemy = new Enemy();
+        enemies.add(newEnemy);
+    }
+
+    private void moveEnemies(double deltaTime) {
+        for (Enemy enemy : enemies) {
+            Tile tile;
+            tile = board.getTilePosition(enemy.getPositionY(), enemy.getPositionX());
+
+            enemy.move(tile.getY() * deltaTime, tile.getX() * deltaTime);
+
+        }
+    }
+
+    private static void priorityQueue() {
+        Astar astar;
+        astar = new Astar(board);
+        astar.searchPriorityQueue();
+
     }
 }
