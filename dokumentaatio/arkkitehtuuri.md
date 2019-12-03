@@ -8,4 +8,4 @@ Ohjelman rakenne noudattelee kaksitasoista kerrosarkkitehtuuria, ja koodin pakka
 
 Sekvenssikaavio:
 
-![alt text](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/sekvenssikaavio.jpg)
+![alt text](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/sekvenssikaavio.png)
