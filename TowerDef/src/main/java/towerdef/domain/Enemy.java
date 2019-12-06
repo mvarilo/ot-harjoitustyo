@@ -14,6 +14,15 @@ public class Enemy {
     private double positionX;
     private double positionY;
     private double speed;
+    private int health;
+
+    public Enemy(double y, double x, double speed) {
+        this.positionX = x;
+        this.positionY = y;
+        this.speed = speed;
+        this.health = 1;
+
+    }
 
     public double getPositionX() {
         return positionX;
@@ -28,4 +37,24 @@ public class Enemy {
         positionX += x * speed;
     }
 
+    @Override
+    public Enemy clone() {
+        return new Enemy(
+                positionY,
+                positionX,
+                speed
+        );
+    }
+
+    public void speedUp() {
+        this.speed += 10;
+    }
+
+    public void takeDamage(int i) {
+        health -= i;
+    }
+
+    public int getHealth() {
+        return health;
+    }
 }

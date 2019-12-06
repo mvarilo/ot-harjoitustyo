@@ -9,9 +9,7 @@ package towerdef.domain;
  *
  * @author MV
  */
-public enum Tile implements Comparable<Tile> {
-
-    WALL, ROAD, BASE, SPAWN, TOWER, EMPTY;
+public class Tile implements Comparable<Tile> {
 
     private int x, y;
     private boolean obstacle;
@@ -20,6 +18,26 @@ public enum Tile implements Comparable<Tile> {
     private int index;
     private Tile previous;
     private boolean visited;
+    private String type;
+
+    Tile(int i, int j) {
+        this.roadToStart = Integer.MAX_VALUE;
+        this.x = i;
+        this.y = j;
+        this.obstacle = false;
+        this.previous = null;
+        this.visited = false;
+    }
+
+    Tile(int i, int j, String type) {
+        this.roadToStart = Integer.MAX_VALUE;
+        this.x = i;
+        this.y = j;
+        this.type = type;
+        this.obstacle = false;
+        this.previous = null;
+        this.visited = false;
+    }
 
     public void setGScore(int i) {
         this.roadToStart = i;
@@ -61,10 +79,34 @@ public enum Tile implements Comparable<Tile> {
     }
 
     boolean isObstacle() {
-        return obstacle;
+        return "WALL".equals(this.type) || "TOWER".equals(this.type);
     }
 
     public int getFScore() {
         return this.fScore;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    @Override
+    public int compareTo(Tile o) {
+        if (this.getFScore() < o.getFScore()) {
+            return -1;
+        } else if (this.getFScore() > o.getFScore()) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "x: " + this.x + ", y: " + this.y;
     }
 }

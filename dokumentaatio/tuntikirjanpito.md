@@ -8,5 +8,7 @@
 | 25.11. | 4    | Scene Builder tutustuminen |
 | 26.11. | 4    | Harjoitustyön muokkailu viikon 4 kriteereihin vastaten (pakkausrakenne, checkstyle) |
 | 26.11. | 4    | Ohjelman rakentelua |
-| 03.12. | 10    | Ruudukon rakentelua ja tutkintaa vihollisten toiminnalle |
-| yht   | 26   | | 
+| 03.12. | 10   | Ruudukon rakentelua ja tutkintaa vihollisten toiminnalle |
+| 04.12. | 5    | Vihollisen toteutusta |
+| 05.12. | 8    | Vihollisen toteutusta |
+| yht   | 49   | | 

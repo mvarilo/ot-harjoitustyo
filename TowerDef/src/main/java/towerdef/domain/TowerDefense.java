@@ -6,7 +6,9 @@
 package towerdef.domain;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 /**
  *
@@ -20,16 +22,21 @@ public class TowerDefense {
     private static Board board;
     private List<Enemy> enemies;
     private Wave wave;
+    private Astar astar;
 
     public TowerDefense() {
         this.money = 40;
         this.towers = new ArrayList<>();
         this.health = 100;
-        TowerDefense.board = new Board();
-        priorityQueue();
 
+        TowerDefense.board = new Board();
+        astar = new Astar(board);
+        astar.searchPriorityQueue();
+        board.visualize(astar.getPath());
         this.enemies = new ArrayList<>();
-        this.wave = new Wave();
+
+        Enemy newEnemy = new Enemy(board.getSpawnX(), board.getSpawnY(), 40);
+        this.wave = new Wave(newEnemy, 0);
     }
 
     public int getMoney() {
@@ -62,10 +69,10 @@ public class TowerDefense {
     }
 
     public boolean isWaveOver() {
-        return true;
+        return enemies.isEmpty() && wave.isSpawningFinished();
     }
 
-    boolean isGameOver() {
+    public boolean isGameOver() {
         if (health > 0) {
             return false;
         }
@@ -77,9 +84,11 @@ public class TowerDefense {
     }
 
     public boolean buyTower(double x, double y) {
-        if (board.getTilePosition(x, y) == Tile.WALL
-                && board.getTilePosition(x + 10, y + 10) == Tile.WALL
-                && board.getTilePosition(x - 3, y - 3) == Tile.WALL) {
+        if (board.getTilePosition(x, y).getType().equals("ROAD")
+                || board.getTilePosition(x + 10, y + 10).getType().equals("ROAD")
+                || board.getTilePosition(x - 3, y - 3).getType().equals("ROAD")) {
+
+        } else {
             if (this.money >= 5) {
                 this.money = this.money - 5;
                 towers.add(new Tower(x, y));
@@ -101,20 +110,24 @@ public class TowerDefense {
     public void update(double deltaTime) {
         spawnEnemies(deltaTime);
         moveEnemies(deltaTime);
+        shootEnemies(deltaTime);
+        updateEnemies(deltaTime);
     }
 
     private void spawnEnemies(double deltaTime) {
-        Enemy newEnemy = new Enemy();
-        enemies.add(newEnemy);
+        Enemy newEnemy = wave.update(deltaTime);
+        if (newEnemy != null) {
+            enemies.add(newEnemy);
+        }
     }
 
     private void moveEnemies(double deltaTime) {
         for (Enemy enemy : enemies) {
-            Tile tile;
-            tile = board.getTilePosition(enemy.getPositionY(), enemy.getPositionX());
+            Tile tile = board.getTilePosition(enemy.getPositionY(), enemy.getPositionX());
+            ArrayList<Tile> temp = astar.getPath();
+            Tile nextTile = temp.get(temp.indexOf(tile) + 1);
 
-            enemy.move(tile.getY() * deltaTime, tile.getX() * deltaTime);
-
+            enemy.move((nextTile.getX() - tile.getX()) * deltaTime, (nextTile.getY() - tile.getY()) * deltaTime);
         }
     }
 
@@ -122,6 +135,38 @@ public class TowerDefense {
         Astar astar;
         astar = new Astar(board);
         astar.searchPriorityQueue();
+        board.visualize(astar.getStack());
+    }
 
+    public Iterable<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    private void updateEnemies(double deltaTime) {
+        Iterator<Enemy> iterator = enemies.iterator();
+        while (iterator.hasNext()) {
+            Enemy enemy = iterator.next();
+            if (board.hitBase(enemy.getPositionX(), enemy.getPositionY())) {
+                iterator.remove();
+                this.takeDamage(2);
+            }
+            if (enemy.getHealth() <= 0) {
+                iterator.remove();
+                System.out.println("Enemy destroyed");
+            }
+        }
+    }
+
+    private void shootEnemies(double deltaTime) {
+        for (Tower tower : towers) {
+            tower.findTarget(enemies);
+            for (Enemy enemy : enemies) {
+                if (tower.canShoot()) {
+                    enemy.takeDamage(2);
+                } else {
+                    tower.countdown(deltaTime);
+                }
+            }
+        }
     }
 }

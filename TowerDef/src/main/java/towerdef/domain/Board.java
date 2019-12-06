@@ -6,6 +6,7 @@
 package towerdef.domain;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  *
@@ -14,21 +15,26 @@ import java.util.ArrayList;
 public class Board {
 
     private Tile[][] tiles;
-    private int tileSize = 20;
-    private int height = 400 / 20;
-    private int width = 600 / 20;
-    private int spawnX;
-    private int spawnY;
+    private int tileSize;
+    private int height;
+    private int width;
+    private double spawnX;
+    private double spawnY;
     private int baseX;
     private int baseY;
     private Tile start;
     private Tile goal;
 
     public Board() {
+        this.tileSize = 20;
+        this.width = 600 / 20;
+        this.height = 400 / 20;
         this.tiles = new Tile[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                this.tiles[i][j] = Tile.WALL;
+                Tile newTile = new Tile(i, j);
+                newTile.setType("WALL");
+                this.tiles[i][j] = newTile;
             }
         }
 
@@ -37,24 +43,45 @@ public class Board {
 
     private void createBoard() {
         for (int i = 0; i < width / 2; i++) {
-            tiles[height - 14][i] = Tile.ROAD;
+            Tile newTile = new Tile(6, i);
+            newTile.setType("ROAD");
+            tiles[6][i] = newTile;
         }
-        for (int i = height - 14; i < 16; i++) {
-            tiles[i][width / 2] = Tile.ROAD;
+        for (int i = 6; i < 10; i++) {
+            Tile newTile = new Tile(i, width / 2);
+            newTile.setType("ROAD");
+            tiles[i][width / 2] = newTile;
         }
-        for (int i = width / 2 + 1; i < width; i++) {
-            tiles[15][i] = Tile.ROAD;
+        for (int i = 15; i > 5; i--) {
+            Tile newTile = new Tile(10, i);
+            newTile.setType("ROAD");
+            tiles[10][i] = newTile;
+        }
+        for (int i = 10; i < 15; i++) {
+            Tile newTile = new Tile(i, 5);
+            newTile.setType("ROAD");
+            tiles[i][5] = newTile;
+        }
+        for (int i = 5; i < width; i++) {
+            Tile newTile = new Tile(15, i);
+            newTile.setType("ROAD");
+            tiles[15][i] = newTile;
         }
 
-        spawnX = 6;
-        spawnY = 0;
-        tiles[spawnX][spawnY] = Tile.SPAWN;
-        start = tiles[spawnX][spawnY];
+        spawnX = (6 * tileSize);
+        spawnY = (0 * tileSize);
+
+        Tile spawnTile = new Tile(6, 0);
+        spawnTile.setType("SPAWN");
+        this.start = spawnTile;
+        tiles[6][0] = spawnTile;
 
         baseX = 15;
         baseY = 29;
-        goal = tiles[baseX][baseY];
-        tiles[baseX][baseY] = Tile.BASE;
+        Tile baseTile = new Tile(15, 29);
+        baseTile.setType("BASE");
+        this.goal = baseTile;
+        tiles[baseX][baseY] = baseTile;
     }
 
     public Tile getTile(int i, int j) {
@@ -62,7 +89,7 @@ public class Board {
     }
 
     public Tile getTilePosition(double x, double y) {
-        return getTile((int) (y / tileSize), (int) (x / tileSize));
+        return getTile((int) (x / tileSize), (int) (y / tileSize));
     }
 
     public int getHeight() {
@@ -73,11 +100,11 @@ public class Board {
         return this.width;
     }
 
-    public int getSpawnX() {
+    public double getSpawnX() {
         return this.spawnX;
     }
 
-    public int getSpawnY() {
+    public double getSpawnY() {
         return this.spawnY;
     }
 
@@ -90,18 +117,20 @@ public class Board {
     }
 
     public void setTower(double x, double y) {
-        tiles[(int) (y / tileSize)][(int) (x / tileSize)] = Tile.TOWER;
+        Tile towerTile = new Tile((int) (x / tileSize), (int) (y / tileSize));
+        towerTile.setType("TOWER");
+        tiles[(int) (x / tileSize)][(int) (y / tileSize)] = towerTile;
     }
 
     public int distBetween(Tile current, Tile neighbour) {
         return 1;
     }
 
-    Tile getStart() {
+    public Tile getStart() {
         return this.start;
     }
 
-    Tile getGoal() {
+    public Tile getGoal() {
         return this.goal;
     }
 
@@ -109,48 +138,109 @@ public class Board {
         ArrayList<Tile> neighbours = new ArrayList<>();
 
         if (left(current)) {
-            Tile neighbour = this.tiles[current.getX() - 1][current.getY()];
+            Tile neighbour = this.tiles[current.getX()][current.getY() - 1];
             addNeighbour(neighbours, neighbour);
         }
 
         if (right(current)) {
-            Tile naapuri = this.tiles[current.getX() + 1][current.getY()];
-            addNeighbour(neighbours, naapuri);
+            Tile neighbour = this.tiles[current.getX()][current.getY() + 1];
+            addNeighbour(neighbours, neighbour);
         }
 
         if (up(current)) {
-            Tile naapuri = this.tiles[current.getX()][current.getY() - 1];
-            addNeighbour(neighbours, naapuri);
+            Tile neighbour = this.tiles[current.getX() - 1][current.getY()];
+            addNeighbour(neighbours, neighbour);
         }
 
         if (down(current)) {
-            Tile naapuri = this.tiles[current.getX()][current.getY() + 1];
-            addNeighbour(neighbours, naapuri);
+            Tile neighbour = this.tiles[current.getX() + 1][current.getY()];
+            addNeighbour(neighbours, neighbour);
         }
         return neighbours;
     }
 
     private void addNeighbour(ArrayList<Tile> neighbours, Tile neighbour) {
-        if (neighbour != Tile.WALL && neighbour.isVisited() != true) {
+        if (neighbour.isObstacle() != true && neighbour.isVisited() != true) {
             neighbours.add(neighbour);
         }
 
     }
 
     private boolean left(Tile current) {
-        return current.getX() > 0;
-    }
-
-    private boolean right(Tile current) {
-        return current.getX() < this.tiles.length - 1;
-    }
-
-    private boolean up(Tile current) {
         return current.getY() > 0;
     }
 
+    private boolean right(Tile current) {
+        return current.getY() < this.getWidth() - 1;
+    }
+
+    private boolean up(Tile current) {
+        return current.getX() > 0;
+    }
+
     private boolean down(Tile current) {
-        return current.getY() < this.tiles.length - 1;
+        return current.getX() < this.getHeight() - 1;
+    }
+
+    void visualize(Stack stack) {
+        System.out.println("\nBoard:");
+        System.out.println("start = S");
+        System.out.println("goal = G");
+        System.out.println("obstacle = #");
+        System.out.println("path = p");
+        System.out.println("visited = v \n");
+
+        for (int j = 0; j < this.getHeight(); j++) {
+            for (int i = 0; i < this.getWidth(); i++) {
+                if (tiles[j][i] == start) {
+                    System.out.print("[S]");
+                } else if (tiles[j][i] == goal) {
+                    System.out.print("[G]");
+                } else if (tiles[j][i].isObstacle()) {
+                    System.out.print("[#]");
+                } else if (stack.contains(this.getTile(j, i))) {
+                    System.out.print("[p]");
+                } else if (this.getTile(j, i).isVisited()) {
+                    System.out.print("[v]");
+                } else {
+                    System.out.print("[ ]");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    void visualize(ArrayList stack) {
+        System.out.println("\nBoard:");
+        System.out.println("start = S");
+        System.out.println("goal = G");
+        System.out.println("obstacle = #");
+        System.out.println("path = p");
+        System.out.println("visited = v \n");
+
+        for (int j = 0; j < this.getHeight(); j++) {
+            for (int i = 0; i < this.getWidth(); i++) {
+                if (tiles[j][i] == start) {
+                    System.out.print("[S]");
+                } else if (tiles[j][i] == goal) {
+                    System.out.print("[G]");
+                } else if (tiles[j][i].isObstacle()) {
+                    System.out.print("[#]");
+                } else if (stack.contains(this.getTile(j, i))) {
+                    System.out.print("[p]");
+                } else if (this.getTile(j, i).isVisited()) {
+                    System.out.print("[v]");
+                } else {
+                    System.out.print("[ ]");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    boolean hitBase(double positionY, double positionX) {
+        return (int) (positionY / tileSize) == baseY
+                && (int) (positionX / tileSize) == baseX;
     }
 
 }

@@ -62,7 +62,7 @@ public class TowerDefenseTest {
 
     @Test
     public void getCorrectWave() {
-        assertEquals(1, towerDefense.getWaveNumber());
+        assertEquals(0, towerDefense.getWaveNumber());
     }
 
     @Test
@@ -85,11 +85,11 @@ public class TowerDefenseTest {
     public void isWaveOver() {
         assertEquals(true, towerDefense.isWaveOver());
     }
-    
+
     @Test
     public void nextWave() {
         towerDefense.newWave();
-        assertEquals(2, towerDefense.getWaveNumber());
+        assertEquals(1, towerDefense.getWaveNumber());
     }
 
     @Test

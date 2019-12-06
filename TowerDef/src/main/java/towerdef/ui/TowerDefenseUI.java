@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import towerdef.domain.Board;
+import towerdef.domain.Enemy;
 import towerdef.domain.Tile;
 import towerdef.domain.TowerDefense;
 
@@ -39,6 +40,8 @@ public class TowerDefenseUI implements Initializable {
     private TowerDefense towerDefense;
     private int tileSize = 20;
 
+    private AnimationTimer timer;
+
     @FXML
     private void handleButtonTower(ActionEvent event) {
         if (towerDefense.buyTower()) {
@@ -55,6 +58,8 @@ public class TowerDefenseUI implements Initializable {
     private void handleButtonWave(ActionEvent event) {
         if (towerDefense.isWaveOver()) {
             towerDefense.newWave();
+            timer.start();
+            label.setText("");
         } else {
             label.setText("Wave is already in progress.");
         }
@@ -63,11 +68,14 @@ public class TowerDefenseUI implements Initializable {
 
     @FXML
     private void drawTower(MouseEvent event) {
-        if (towerDefense.buyTower(event.getX(), event.getY())) {
+        if (towerDefense.buyTower(event.getY(), event.getX())) {
+            gc.setFill(Color.DARKVIOLET);
             gc.strokeOval(event.getX(), event.getY(), 10, 10);
             gc.fillOval(event.getX(), event.getY(), 10, 10);
             label.setText("You bought a tower, you have " + towerDefense.getMoney() + " gold left");
         } else {
+            System.out.println("x" + event.getX());
+            System.out.println("y" + event.getY());
             label.setText("You can't place a tower there");
         }
         update();
@@ -84,34 +92,21 @@ public class TowerDefenseUI implements Initializable {
     }
 
     private void drawTile(int i, Board board, int j) {
-        if (null != board.getTile(i, j)) {
-            switch (board.getTile(i, j)) {
-                case SPAWN:
-                    gc.setFill(Color.RED);
-                    break;
-                case BASE:
-                    gc.setFill(Color.GREEN);
-                    break;
-                case ROAD:
-                    gc.setFill(Color.BURLYWOOD);
-                    break;
-                case WALL:
-                    break;
-                case TOWER:
-                    break;
-                case EMPTY:
-                    break;
-                default:
-                    break;
-            }
+        if ("SPAWN".equals(board.getTile(i, j).getType())) {
+            gc.setFill(Color.RED);
         }
-        if (board.getTile(i, j) != Tile.WALL && board.getTile(i, j) != Tile.TOWER) {
+        if ("BASE".equals(board.getTile(i, j).getType())) {
+            gc.setFill(Color.GREEN);
+        }
+        if ("ROAD".equals(board.getTile(i, j).getType())) {
+            gc.setFill(Color.BURLYWOOD);
+        }
+        if ("WALL".equals(board.getTile(i, j).getType())) {
+
+        }
+        if (!"WALL".equals(board.getTile(i, j).getType()) && !"TOWER".equals(board.getTile(i, j).getType())) {
             gc.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
         }
-//        if (board.getTile(i, j) == Tile.TOWER) {
-//            gc.strokeOval(i, j, 10, 10);
-//            gc.fillOval(i, j, 10, 10);
-//        }
     }
 
     @Override
@@ -119,17 +114,31 @@ public class TowerDefenseUI implements Initializable {
         gc = canvas.getGraphicsContext2D();
 
         towerDefense = new TowerDefense();
+        update();
 
-        final long startNanoTime = System.nanoTime();
-        new AnimationTimer() {
+        timer = new AnimationTimer() {
+
+            long lastNanoTime = System.nanoTime();
+
             @Override
             public void handle(long currentNanoTime) {
-                double deltaTime = (currentNanoTime - startNanoTime) / 1000000000.0;
+                double deltaTime = (currentNanoTime - lastNanoTime) / 1000000000.0;
+                lastNanoTime = currentNanoTime;
+
                 towerDefense.update(deltaTime);
                 update();
-            }
-        }.start();
 
+                if (towerDefense.isWaveOver()) {
+                    label.setText("Wave is over");
+                    stop();
+                }
+
+                if (towerDefense.isGameOver()) {
+                    label.setText("Game over!");
+                    stop();
+                }
+            }
+        };
     }
 
     private void update() {
@@ -137,6 +146,23 @@ public class TowerDefenseUI implements Initializable {
         gold.setText("Gold: " + towerDefense.getMoney());
         wave.setText("Wave: " + towerDefense.getWaveNumber() + "/10");
         drawBoard();
+        drawEnemies();
+        drawCombat();
+    }
+
+    private void drawEnemies() {
+        for (Enemy enemy : towerDefense.getEnemies()) {
+            gc.setFill(Color.BLACK);
+            gc.fillOval(
+                    enemy.getPositionX(),
+                    enemy.getPositionY(),
+                    5,
+                    5);
+        }
+    }
+
+    private void drawCombat() {
+
     }
 
 }
