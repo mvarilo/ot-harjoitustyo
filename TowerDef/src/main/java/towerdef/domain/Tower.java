@@ -7,7 +7,7 @@ package towerdef.domain;
 
 /**
  *
- * @author MV
+ * Torni joka ampuu vihollisia
  */
 import java.util.List;
 
@@ -22,11 +22,23 @@ class Tower {
     private double firerate;
     private boolean inRange;
 
+    /**
+     *
+     * Konstruktori luo tornin jota ei ole laitettu kentälle
+     */
     public Tower() {
         this.power = 20;
         this.range = 20;
     }
 
+    /**
+     *
+     * Konstruktori luo tornin ja asettaa sille koordinaatit, kuinka nopeasti se
+     * ampuu jne.
+     *
+     * @param x
+     * @param y
+     */
     Tower(double x, double y) {
         this.power = 5;
         this.range = 50;
@@ -65,6 +77,10 @@ class Tower {
         Enemy closestTarget = null;
         double closestDistance = 0.0;
 
+        fireTargets(targetList, closestTarget, closestDistance);
+    }
+
+    private void fireTargets(List<Enemy> targetList, Enemy closestTarget, double closestDistance) {
         for (Enemy newEnemy : targetList) {
             double distanceX = newEnemy.getPositionX() - this.y;
             double distanceY = newEnemy.getPositionY() - this.x;

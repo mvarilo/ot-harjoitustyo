@@ -7,7 +7,7 @@ package towerdef.domain;
 
 /**
  *
- * @author MV
+ * Yksittäinen ruutu pelilaudalla
  */
 public class Tile implements Comparable<Tile> {
 
@@ -20,7 +20,13 @@ public class Tile implements Comparable<Tile> {
     private boolean visited;
     private String type;
 
-    Tile(int i, int j) {
+    /**
+     * Luo ruudun ja kertoo sille sen koordinaatit
+     *
+     * @param i
+     * @param j
+     */
+    public Tile(int i, int j) {
         this.roadToStart = Integer.MAX_VALUE;
         this.x = i;
         this.y = j;
@@ -29,7 +35,14 @@ public class Tile implements Comparable<Tile> {
         this.visited = false;
     }
 
-    Tile(int i, int j, String type) {
+    /**
+     * Luo ruudun ja kertoo sille sen koordinaatit sekä sen tyypin
+     *
+     * @param i
+     * @param j
+     * @param type ruudun tyyppi, esim. seinä, maali, tyhjä, tie
+     */
+    public Tile(int i, int j, String type) {
         this.roadToStart = Integer.MAX_VALUE;
         this.x = i;
         this.y = j;
@@ -47,6 +60,11 @@ public class Tile implements Comparable<Tile> {
         this.fScore = Math.abs(this.x - goal.getX()) + Math.abs(this.y - goal.getY()) + getGScore();
     }
 
+    /**
+     * Palauttaa onko ruutu käyty läpi reitinhakutarkoituksessa.
+     *
+     * @return
+     */
     public boolean isVisited() {
         if (this.visited == true) {
             return true;
@@ -78,7 +96,12 @@ public class Tile implements Comparable<Tile> {
         return y;
     }
 
-    boolean isObstacle() {
+    /**
+     * Palauttaa voiko ruudun läpi kulkea
+     *
+     * @return
+     */
+    public boolean isObstacle() {
         return "WALL".equals(this.type) || "TOWER".equals(this.type);
     }
 

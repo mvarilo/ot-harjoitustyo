@@ -12,7 +12,7 @@ import java.util.Stack;
 
 /**
  *
- * @author MV
+ * Pelin logiikan pääluokka, joka pyörittää peliä
  */
 public class TowerDefense {
 
@@ -24,6 +24,12 @@ public class TowerDefense {
     private Wave wave;
     private Astar astar;
 
+    /**
+     *
+     * Konstruktori luo peliluokan, joka puolestaan asettaa pelin säännöt, luo
+     * muut oliot ja laskee reitin pelilaudan läpi ja laittaa pelin
+     * aloituspisteeseen.
+     */
     public TowerDefense() {
         this.money = 40;
         this.towers = new ArrayList<>();
@@ -87,7 +93,7 @@ public class TowerDefense {
         if (board.getTilePosition(x, y).getType().equals("ROAD")
                 || board.getTilePosition(x + 10, y + 10).getType().equals("ROAD")
                 || board.getTilePosition(x - 3, y - 3).getType().equals("ROAD")) {
-
+            return false;
         } else {
             if (this.money >= 5) {
                 this.money = this.money - 5;
@@ -129,13 +135,6 @@ public class TowerDefense {
 
             enemy.move((nextTile.getX() - tile.getX()) * deltaTime, (nextTile.getY() - tile.getY()) * deltaTime);
         }
-    }
-
-    private static void priorityQueue() {
-        Astar astar;
-        astar = new Astar(board);
-        astar.searchPriorityQueue();
-        board.visualize(astar.getStack());
     }
 
     public Iterable<Enemy> getEnemies() {

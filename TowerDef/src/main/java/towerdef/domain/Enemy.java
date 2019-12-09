@@ -7,7 +7,7 @@ package towerdef.domain;
 
 /**
  *
- * @author MV
+ * Vihollinen jonka pelaaja yrittää tuhota ennen kuin se pääsee maaliin
  */
 public class Enemy {
 
@@ -16,6 +16,13 @@ public class Enemy {
     private double speed;
     private int health;
 
+    /**
+     * Konstruktori luo vihollisen ja antaa sille koordinaaatit sekä nopeuden
+     *
+     * @param y
+     * @param x
+     * @param speed
+     */
     public Enemy(double y, double x, double speed) {
         this.positionX = x;
         this.positionY = y;
@@ -32,11 +39,20 @@ public class Enemy {
         return positionY;
     }
 
-    void move(double y, double x) {
+    /**
+     * Liikuttaa vihollista nopeuden mukaan
+     *
+     * @param y
+     * @param x
+     */
+    public void move(double y, double x) {
         positionY += y * speed;
         positionX += x * speed;
     }
 
+    /**
+     * Kloonaa vihollisen
+     */
     @Override
     public Enemy clone() {
         return new Enemy(

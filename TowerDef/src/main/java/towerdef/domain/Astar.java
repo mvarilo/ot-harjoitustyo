@@ -11,6 +11,10 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 /**
+ * Toteuttaa A*-algoritmiin pohjautuvan lyhimmän reitin etsinnän. Javan
+ * tietorakenteita käyttäen. Perustuu Wikipedian pseudokoodiin.
+ * http://en.wikipedia.org/wiki/A*_search_algorithm
+ *
  *
  * @author MV
  */
@@ -26,9 +30,10 @@ public class Astar {
     private ArrayList<Tile> path;
 
     /**
-     * Konstruktori saa parametreinä labyrintin, lähtö- ja maalisolmun.
+     * Konstruktori saa parametreinä pelilaudan, lähtö- ja maalisolmun.
      *
-     * @param board
+     * @param board pelilauta
+     *
      */
     public Astar(Board board) {
         this.board = board;
@@ -41,6 +46,11 @@ public class Astar {
         this.stack = new Stack<>();
     }
 
+    /**
+     * Etsii lyhimmän PriorityQueuen avulla
+     *
+     *
+     */
     public void searchPriorityQueue() {
         this.open.add(start);
 
@@ -61,24 +71,28 @@ public class Astar {
             this.open.remove(current);
             this.evaluated.add(current);
 
-            ArrayList<Tile> neighbours = this.board.getNeighbours(current);
-            for (Tile neighbour : neighbours) {
-                if (!evaluated.contains(neighbour)) {
-                    int tentative_g_score = current.getGScore() + board.distBetween(current, neighbour);
-
-                    if (!this.open.contains(neighbour) || tentative_g_score < neighbour.getGScore()) {
-                        cameFrom.put(neighbour, current);
-                        neighbour.setGScore(tentative_g_score);
-                        neighbour.setFScore(goal);
-                    }
-                    if (!this.open.contains(neighbour)) {
-                        this.open.add(neighbour);
-                    }
-                }
-            }
+            handleNeighbours(current);
 
         }
 
+    }
+
+    private void handleNeighbours(Tile current) {
+        ArrayList<Tile> neighbours = this.board.getNeighbours(current);
+        for (Tile neighbour : neighbours) {
+            if (!evaluated.contains(neighbour)) {
+                int tentativeGScore = current.getGScore() + board.distBetween(current, neighbour);
+
+                if (!this.open.contains(neighbour) || tentativeGScore < neighbour.getGScore()) {
+                    cameFrom.put(neighbour, current);
+                    neighbour.setGScore(tentativeGScore);
+                    neighbour.setFScore(goal);
+                }
+                if (!this.open.contains(neighbour)) {
+                    this.open.add(neighbour);
+                }
+            }
+        }
     }
 
     private void reconstructPath(HashMap<Tile, Tile> cameFrom, Tile currentNode) {
@@ -91,15 +105,12 @@ public class Astar {
             this.stack.push(current);
             current = cameFrom.get(current);
         }
-        while (!this.stack.empty()) {;
+
+        while (!this.stack.empty()) {
             current = this.stack.pop();
             path.add(current);
             System.out.println(current.toString());
         }
-    }
-
-    public Stack getStack() {
-        return this.stack;
     }
 
     public ArrayList getPath() {

@@ -11,4 +11,5 @@
 | 03.12. | 10   | Ruudukon rakentelua ja tutkintaa vihollisten toiminnalle |
 | 04.12. | 5    | Vihollisen toteutusta |
 | 05.12. | 8    | Vihollisen toteutusta |
-| yht   | 49   | | 
+| 08.12. | 6    | Kuudennen viikon vaatimuksiin ja releaseen valmistelu |
+| yht   | 55   | | 

@@ -4,7 +4,7 @@ Tower Defense -peli.
 
 ## Dokumentaatio
 
-Käyttöohje
+[Käyttöohje](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
 
 [Vaatimusmäärittely](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
@@ -17,6 +17,7 @@ Testausdokumentti
 ## Releaset
 
 [Viikko 5](https://github.com/mvarilo/ot-harjoitustyo/releases/tag/viikko5)
+[Viikko 6](https://github.com/mvarilo/ot-harjoitustyo/releases/tag/viikko6)
 
 ## Komentorivitoiminnot
 

@@ -7,7 +7,8 @@ package towerdef.domain;
 
 /**
  *
- * @author MV
+ * Peli toimii niin että viholliset tulevat aalloissa tämän luokan tehtävänä on
+ * pitää siitä huolta aaltojen hallinnsta.
  */
 public class Wave {
 
@@ -22,7 +23,15 @@ public class Wave {
         this.number = 0;
     }
 
-    Wave(Enemy newEnemy, int enemies) {
+    /**
+     *
+     * Konstruktori luo aallon ja asettaa sille vihollisen määritelmän ja kuinka
+     * monta niitä on.
+     *
+     * @param newEnemy vihollisen määritelmä
+     * @param enemies monta vihollista on
+     */
+    public Wave(Enemy newEnemy, int enemies) {
         this.number = 0;
         this.enemy = newEnemy;
         this.maxEnemies = enemies;

@@ -19,6 +19,9 @@ import towerdef.domain.Enemy;
 import towerdef.domain.Tile;
 import towerdef.domain.TowerDefense;
 
+/**
+ * Piirtää pelin, kutsuu pelilogiikkaa ja hallinnoi käyttäjän syötöt
+ */
 public class TowerDefenseUI implements Initializable {
 
     @FXML

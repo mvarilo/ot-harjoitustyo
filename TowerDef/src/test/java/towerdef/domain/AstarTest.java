@@ -70,4 +70,12 @@ public class AstarTest {
                 + " x: 15, y: 29]", path.toString());
     }
 
+    @Test
+    public void testSearchPriorityQueueEmpty() {
+        this.board = new Board();
+        this.board.emptyBoard();
+        this.astar = new Astar(board);
+        this.astar.searchPriorityQueue();
+    }
+
 }
