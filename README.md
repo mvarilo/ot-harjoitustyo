@@ -10,7 +10,7 @@ Tower Defense -peli.
 
 [Arkkitehtuurikuvaus](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
-Testausdokumentti
+[Testausdokumentti](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/testaus.md)
 
 [Työaikakirjanpito](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
 
@@ -20,7 +20,7 @@ Testausdokumentti
 
 [Viikko 6](https://github.com/mvarilo/ot-harjoitustyo/releases/tag/viikko6)
 
-[Loppupalautus(https://github.com/mvarilo/ot-harjoitustyo/releases/tag/loppupalautus)
+[Loppupalautus](https://github.com/mvarilo/ot-harjoitustyo/releases/tag/loppupalautus)
 
 ## Komentorivitoiminnot
 
