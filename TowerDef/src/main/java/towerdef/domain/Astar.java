@@ -5,6 +5,7 @@
  */
 package towerdef.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -18,7 +19,7 @@ import java.util.Stack;
  *
  * @author MV
  */
-public class Astar {
+public class Astar implements Serializable {
 
     private Board board;
     private Tile start;
@@ -57,14 +58,10 @@ public class Astar {
         this.start.setGScore(0);
         this.start.setFScore(this.goal);
 
-        int test = 0;
-
         while (!this.open.isEmpty()) {
             Tile current = this.open.poll();
-            System.out.println(test++);
 
             if (current.equals(goal)) {
-                System.out.println("2");
                 reconstructPath(cameFrom, goal);
             }
 
@@ -77,6 +74,10 @@ public class Astar {
 
     }
 
+    /**
+     * Käy läpi solmut.
+     *
+     */
     private void handleNeighbours(Tile current) {
         ArrayList<Tile> neighbours = this.board.getNeighbours(current);
         for (Tile neighbour : neighbours) {
@@ -95,8 +96,11 @@ public class Astar {
         }
     }
 
+    /**
+     * Rekonstruoi lyhimmän reitin.
+     *
+     */
     private void reconstructPath(HashMap<Tile, Tile> cameFrom, Tile currentNode) {
-        System.out.println(this.start.toString());
 
         Tile current = this.goal;
         this.stack = new Stack<>();
@@ -109,7 +113,7 @@ public class Astar {
         while (!this.stack.empty()) {
             current = this.stack.pop();
             path.add(current);
-            System.out.println(current.toString());
+
         }
     }
 

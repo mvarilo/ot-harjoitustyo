@@ -15,19 +15,20 @@ Perusversiossa peliä voi käyttää vain yksi käyttäjä.
 ## Perusversion tarjoama toiminnallisuus
 - [x] Käyttöliittymä, jossa näkee pelikentän, omat resurssit, tukikohdan ottaman vahingon ja selviydyttyjen hyökkäysten määrän
 - [x] Pelaaja voi ostaa ja laittaa tykkejä kentälle
-- [x] Viholliset liikkuvat reittiä pitkin aaltoina tukikohtaan TEHTY
-- [x] Hyökkäysaaltojen välissä on tauko TEHTY
-- [ ] Tykit ampuvat vihollisia TYÖN ALLA
-- [x] Peli päättyy jos tukikohta tuhoutuu TEHTY
+- [x] Viholliset liikkuvat reittiä pitkin aaltoina tukikohtaan
+- [x] Hyökkäysaaltojen välissä on tauko
+- [x] Tykit ampuvat vihollisia
+- [x] Peli päättyy jos tukikohta tuhoutuu
 
 
 ## Jatkokehitysideoita
 
-- Erilaisia karttoja
-- Resurssinkeruuta
-- Tykkejä voi päivittää paremmiksi
-- Erilaisia vihollisia
-- Eri tyyppisiä tykkejä
-- Pelin voi tallentaa ja pysäyttää
-- High score -lista
-- Karttaeditori
+- [x] Peli tallennetaan hyökkäysten välissä
+- [ ] Erilaisia karttoja
+- [ ] Resurssinkeruuta
+- [ ] Tykkejä voi päivittää paremmiksi
+- [ ] Erilaisia vihollisia
+- [ ] Eri tyyppisiä tykkejä
+- [ ] Pelin voi pysäyttää kesken
+- [ ] High score -lista
+- [ ] Karttaeditori

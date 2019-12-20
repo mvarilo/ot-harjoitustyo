@@ -5,11 +5,13 @@
  */
 package towerdef.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * Yksittäinen ruutu pelilaudalla
  */
-public class Tile implements Comparable<Tile> {
+public class Tile implements Comparable<Tile>, Serializable {
 
     private int x, y;
     private boolean obstacle;

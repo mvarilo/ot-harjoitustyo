@@ -3,7 +3,10 @@ package towerdef.ui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
@@ -14,9 +17,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import towerdef.dao.Dao;
 import towerdef.domain.Board;
 import towerdef.domain.Enemy;
 import towerdef.domain.Tile;
+import towerdef.domain.Shot;
+import towerdef.domain.Tower;
 import towerdef.domain.TowerDefense;
 
 /**
@@ -40,6 +46,7 @@ public class TowerDefenseUI implements Initializable {
     private Label wave;
     private GraphicsContext gc;
 
+    private Dao dao;
     private TowerDefense towerDefense;
     private int tileSize = 20;
 
@@ -47,41 +54,49 @@ public class TowerDefenseUI implements Initializable {
 
     @FXML
     private void handleButtonTower(ActionEvent event) {
-        if (towerDefense.buyTower()) {
-            System.out.println("You bought a tower, you have " + towerDefense.getMoney() + " gold left");
-            label.setText("You bought a tower, you have " + towerDefense.getMoney() + " gold left");
-        } else {
-            System.out.println("You didn't have enough money to buy a tower");
-            label.setText("You didn't have enough money to buy a tower");
+        if (!towerDefense.isGameOver()) {
+            if (towerDefense.buyTower()) {
+                System.out.println("You bought a tower, you have " + towerDefense.getMoney() + " gold left");
+                label.setText("You bought a tower, you have " + towerDefense.getMoney() + " gold left");
+            } else {
+                System.out.println("You did not have enough money to buy a tower");
+                label.setText("You did not have enough money to buy a tower");
+            }
+            update();
         }
-        update();
     }
 
     @FXML
     private void handleButtonWave(ActionEvent event) {
-        if (towerDefense.isWaveOver()) {
-            towerDefense.newWave();
-            timer.start();
-            label.setText("");
-        } else {
-            label.setText("Wave is already in progress.");
+        if (!towerDefense.isGameOver()) {
+            if (towerDefense.isWaveOver()) {
+                towerDefense.newWave();
+                timer.start();
+                label.setText("");
+            } else {
+                label.setText("Wave is already in progress.");
+            }
+            update();
         }
-        update();
     }
 
     @FXML
     private void drawTower(MouseEvent event) {
-        if (towerDefense.buyTower(event.getY(), event.getX())) {
-            gc.setFill(Color.DARKVIOLET);
-            gc.strokeOval(event.getX(), event.getY(), 10, 10);
-            gc.fillOval(event.getX(), event.getY(), 10, 10);
-            label.setText("You bought a tower, you have " + towerDefense.getMoney() + " gold left");
-        } else {
-            System.out.println("x" + event.getX());
-            System.out.println("y" + event.getY());
-            label.setText("You can't place a tower there");
+        if (!towerDefense.isGameOver()) {
+
+            try {
+                if (towerDefense.buyTower(event.getY() - 5, event.getX() - 5)) {
+                    label.setText("You bought a tower, you have " + towerDefense.getMoney() + " gold left");
+                } else if (towerDefense.getMoney() < 5) {
+                    label.setText("You did not have enough money for a tower");
+                } else {
+                    label.setText("Can't place tower there");
+                }
+                update();
+            } catch (Exception e) {
+                label.setText("Can't place tower there");
+            }
         }
-        update();
     }
 
     private void drawBoard() {
@@ -92,6 +107,8 @@ public class TowerDefenseUI implements Initializable {
                 drawTile(i, board, j);
             }
         }
+
+        drawTowers();
     }
 
     private void drawTile(int i, Board board, int j) {
@@ -116,7 +133,8 @@ public class TowerDefenseUI implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         gc = canvas.getGraphicsContext2D();
 
-        towerDefense = new TowerDefense();
+        dao = new Dao("./autosave.sav");
+        towerDefense = loadGame();
         update();
 
         timer = new AnimationTimer() {
@@ -129,10 +147,11 @@ public class TowerDefenseUI implements Initializable {
                 lastNanoTime = currentNanoTime;
 
                 towerDefense.update(deltaTime);
-                update();
+                update(deltaTime);
 
                 if (towerDefense.isWaveOver()) {
                     label.setText("Wave is over");
+                    saveGame();
                     stop();
                 }
 
@@ -148,14 +167,29 @@ public class TowerDefenseUI implements Initializable {
         hp.setText("HP: " + towerDefense.getHealth());
         gold.setText("Gold: " + towerDefense.getMoney());
         wave.setText("Wave: " + towerDefense.getWaveNumber() + "/10");
+
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawBoard();
+        drawCombat();
+        drawEnemies();
+    }
+
+    private void update(double deltaTime) {
+        hp.setText("HP: " + towerDefense.getHealth());
+        gold.setText("Gold: " + towerDefense.getMoney());
+        wave.setText("Wave: " + towerDefense.getWaveNumber() + "/99");
+
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         drawBoard();
         drawEnemies();
-        drawCombat();
+        drawCombat(deltaTime);
     }
 
     private void drawEnemies() {
         for (Enemy enemy : towerDefense.getEnemies()) {
             gc.setFill(Color.BLACK);
+            gc.setStroke(Color.BLACK);
+            gc.strokeOval(enemy.getPositionX(), enemy.getPositionY(), 5, 5);
             gc.fillOval(
                     enemy.getPositionX(),
                     enemy.getPositionY(),
@@ -165,7 +199,72 @@ public class TowerDefenseUI implements Initializable {
     }
 
     private void drawCombat() {
+        for (Tower tower : towerDefense.getTowers()) {
+            ArrayList<Shot> shots = tower.drawShots();
+            for (Iterator<Shot> it = shots.iterator(); it.hasNext();) {
+                if (towerDefense.isWaveOver()) {
+                    Shot next = it.next();
+                    it.remove();
+                } else {
+                    Shot shot = it.next();
+                    gc.setLineWidth(1);
+                    gc.setStroke(Color.RED);
+                    gc.strokeLine(shot.getStartY() + 5, shot.getStartX() + 5,
+                            shot.getEndX(), shot.getEndY());
+                    if (tower.timeoutShot()) {
+                        it.remove();
+                    }
+                }
+            }
+        }
+    }
 
+    private void drawCombat(double deltaTime) {
+        for (Tower tower : towerDefense.getTowers()) {
+            ArrayList<Shot> shots = tower.drawShots();
+            for (Iterator<Shot> it = shots.iterator(); it.hasNext();) {
+                if (towerDefense.isWaveOver()) {
+                    Shot next = it.next();
+                    it.remove();
+                } else {
+                    Shot shot = it.next();
+                    tower.update(deltaTime);
+                    gc.setLineWidth(1);
+                    gc.setStroke(Color.RED);
+                    gc.strokeLine(shot.getStartY() + 5, shot.getStartX() + 5,
+                            shot.getEndX(), shot.getEndY());
+                    if (tower.timeoutShot()) {
+                        it.remove();
+                    }
+                }
+            }
+        }
+    }
+
+    private void drawTowers() {
+        for (Tower tower : towerDefense.getTowers()) {
+            gc.setFill(Color.DARKVIOLET);
+            gc.setStroke(Color.DARKVIOLET);
+            gc.strokeOval(tower.getPositionY(), tower.getPositionX(), 10, 10);
+            gc.fillOval(tower.getPositionY(), tower.getPositionX(), 10, 10);
+        }
+    }
+
+    private TowerDefense loadGame() {
+        try {
+            towerDefense = dao.load();
+            return towerDefense;
+        } catch (IOException | ClassNotFoundException ex) {
+            return new TowerDefense();
+        }
+    }
+
+    private void saveGame() {
+        try {
+            dao.save(towerDefense);
+        } catch (IOException ex) {
+            System.out.println("Save failed");
+        }
     }
 
 }

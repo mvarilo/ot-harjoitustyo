@@ -9,9 +9,11 @@ package towerdef.domain;
  *
  * Torni joka ampuu vihollisia
  */
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-class Tower {
+public class Tower implements Serializable {
 
     private int power;
     private double range;
@@ -20,14 +22,16 @@ class Tower {
     private Enemy target;
     private double cooldown;
     private double firerate;
-    private boolean inRange;
+    private ArrayList<Shot> shots = new ArrayList<>();
+    private double shotTimer;
+    private boolean shooting;
 
     /**
      *
      * Konstruktori luo tornin jota ei ole laitettu kentälle
      */
     public Tower() {
-        this.power = 20;
+        this.power = 1;
         this.range = 20;
     }
 
@@ -40,73 +44,66 @@ class Tower {
      * @param y
      */
     Tower(double x, double y) {
-        this.power = 5;
-        this.range = 50;
+        this.power = 1;
+        this.range = 100;
         this.x = x;
         this.y = y;
-        this.cooldown = 0;
         this.firerate = 5;
+        this.cooldown = 0;
+        this.shotTimer = 0;
+        this.shooting = false;
     }
 
-    double getPositionX() {
+    public double getPositionX() {
         return this.x;
     }
 
-    double getPositionY() {
+    public double getPositionY() {
         return this.y;
-    }
-
-    public boolean hitTarget(Enemy enemy) {
-        cooldown = firerate;
-        if (this.target == enemy) {
-            this.target = null;
-            return true;
-        }
-        return false;
     }
 
     public Enemy getTarget() {
         return target;
     }
 
+    /**
+     * Etsii kohteen jota ampua
+     *
+     * @param targetList
+     */
     public void findTarget(List<Enemy> targetList) {
-        if (getTarget() != null) {
-            return;
+        if (this.getTarget() == null) {
+            Enemy closestTarget = null;
+            double closestDistance = 0.0;
+
+            fireTargets(targetList, closestTarget, closestDistance);
         }
-
-        Enemy closestTarget = null;
-        double closestDistance = 0.0;
-
-        fireTargets(targetList, closestTarget, closestDistance);
     }
 
     private void fireTargets(List<Enemy> targetList, Enemy closestTarget, double closestDistance) {
         for (Enemy newEnemy : targetList) {
-            double distanceX = newEnemy.getPositionX() - this.y;
-            double distanceY = newEnemy.getPositionY() - this.x;
-
-            double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            double distanceTotal = calculateDistance(newEnemy);
 
             if (closestTarget != null) {
                 if (distanceTotal < closestDistance) {
-                    distanceTotal = closestDistance;
                     closestTarget = newEnemy;
                     this.target = closestTarget;
                 }
             }
-            if (closestDistance > this.range) {
-                this.inRange = false;
-            }
-            if (distanceTotal < this.range) {
-                this.inRange = true;
-
-            }
-
         }
     }
 
+    private double calculateDistance(Enemy newEnemy) {
+        double distanceX = newEnemy.getPositionX() - this.y;
+        double distanceY = newEnemy.getPositionY() - this.x;
+
+        double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+        return distanceTotal;
+    }
+
     public boolean canShoot() {
-        if (cooldown <= 0 && this.inRange) {
+        if (cooldown <= 0) {
             cooldown = firerate;
             return true;
         }
@@ -115,5 +112,48 @@ class Tower {
 
     public void countdown(double deltaTime) {
         cooldown -= deltaTime;
+    }
+
+    public int getPower() {
+        return this.power;
+    }
+
+    /**
+     * Ampuu kohdetta enemy
+     *
+     * @param enemy vihollinen jota ammutaan
+     * @param deltaTime
+     */
+    public void shootTarget(Enemy enemy, double deltaTime) {
+        double distance = calculateDistance(enemy);
+        if (canShoot() && distance <= this.range) {
+            enemy.takeDamage(power);
+            System.out.println("Enemy takes " + power + " damage.");
+            shots.add(new Shot(this.getPositionX(), this.getPositionY(),
+                    enemy.getPositionX(), enemy.getPositionY()));
+            this.shotTimer = 0;
+        } else {
+            this.countdown(deltaTime);
+        }
+    }
+
+    public ArrayList<Shot> drawShots() {
+        return shots;
+    }
+
+    public boolean shooting() {
+        return shooting;
+    }
+
+    public void update(double deltaTime) {
+        shotTimer += deltaTime;
+    }
+
+    public boolean timeoutShot() {
+        if (this.shotTimer >= 0.5) {
+            this.shotTimer = 0;
+            return true;
+        }
+        return false;
     }
 }

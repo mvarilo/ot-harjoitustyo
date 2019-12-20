@@ -5,14 +5,14 @@
  */
 package towerdef.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Stack;
 
 /**
  *
  * @author MV
  */
-public class Board {
+public class Board implements Serializable {
 
     private Tile[][] tiles;
     private int tileSize;
@@ -39,6 +39,10 @@ public class Board {
         createBoard();
     }
 
+    /**
+     * Luo eräänlaisen laudan
+     *
+     */
     private void createBoard() {
         emptyBoard();
         createRoad();
@@ -59,6 +63,10 @@ public class Board {
         tiles[baseX][baseY] = baseTile;
     }
 
+    /**
+     * Rakentaa laudalle reitin josta viholliset voivat kulkea
+     *
+     */
     private void createRoad() {
         for (int i = 0; i < width / 2; i++) {
             Tile newTile = new Tile(6, i);
@@ -87,6 +95,10 @@ public class Board {
         }
     }
 
+    /**
+     * Tekee tyhjän laudan
+     *
+     */
     public void emptyBoard() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {

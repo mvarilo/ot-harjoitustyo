@@ -5,11 +5,13 @@
  */
 package towerdef.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * Vihollinen jonka pelaaja yrittää tuhota ennen kuin se pääsee maaliin
  */
-public class Enemy {
+public class Enemy implements Serializable {
 
     private double positionX;
     private double positionY;
@@ -27,7 +29,7 @@ public class Enemy {
         this.positionX = x;
         this.positionY = y;
         this.speed = speed;
-        this.health = 1;
+        this.health = 2;
 
     }
 

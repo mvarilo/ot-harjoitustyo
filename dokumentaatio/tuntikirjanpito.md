@@ -12,4 +12,6 @@
 | 04.12. | 5    | Vihollisen toteutusta |
 | 05.12. | 8    | Vihollisen toteutusta |
 | 08.12. | 6    | Kuudennen viikon vaatimuksiin ja releaseen valmistelu |
-| yht   | 55   | | 
+| 19.12. | 8   | Ammunnan säätämistä ja animointia |
+| 20.12. | 5   | Tallennuksen rakennus, dokumentaatiota, loppupalautuksen valmistelua |
+| yht   | 68   | | 

@@ -8,18 +8,18 @@ package towerdef.domain;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
+import java.io.Serializable;
 
 /**
  *
  * Pelin logiikan pääluokka, joka pyörittää peliä
  */
-public class TowerDefense {
+public class TowerDefense implements Serializable {
 
     private int money;
     private List<Tower> towers;
     private int health;
-    private static Board board;
+    private Board board;
     private List<Enemy> enemies;
     private Wave wave;
     private Astar astar;
@@ -35,7 +35,7 @@ public class TowerDefense {
         this.towers = new ArrayList<>();
         this.health = 100;
 
-        TowerDefense.board = new Board();
+        this.board = new Board();
         astar = new Astar(board);
         astar.searchPriorityQueue();
         board.visualize(astar.getPath());
@@ -79,16 +79,20 @@ public class TowerDefense {
     }
 
     public boolean isGameOver() {
-        if (health > 0) {
-            return false;
-        }
-        return true;
+        return health <= 0;
     }
 
     public void takeDamage(int i) {
         this.health = health - i;
     }
 
+    /**
+     * Ostaa tornin ja palauttaa pystyikö ostamaan
+     *
+     * @param x
+     * @param y
+     * @return true jos onnistui ostamaan tornin, false jos ei
+     */
     public boolean buyTower(double x, double y) {
         if (board.getTilePosition(x, y).getType().equals("ROAD")
                 || board.getTilePosition(x + 10, y + 10).getType().equals("ROAD")
@@ -120,6 +124,9 @@ public class TowerDefense {
         updateEnemies(deltaTime);
     }
 
+    /**
+     * Luo viholliset
+     */
     private void spawnEnemies(double deltaTime) {
         Enemy newEnemy = wave.update(deltaTime);
         if (newEnemy != null) {
@@ -127,6 +134,10 @@ public class TowerDefense {
         }
     }
 
+    /**
+     * Liikuttaa vihollisia pelilaudalla
+     *
+     */
     private void moveEnemies(double deltaTime) {
         for (Enemy enemy : enemies) {
             Tile tile = board.getTilePosition(enemy.getPositionY(), enemy.getPositionX());
@@ -141,30 +152,36 @@ public class TowerDefense {
         return enemies;
     }
 
+    /**
+     * Päivittää vihollisten tilan, mikäli ne osuvat tukikohtaan tai niillä on 0
+     * tai alle elämää jäljellä ne poistetaan pelistä
+     *
+     */
     private void updateEnemies(double deltaTime) {
         Iterator<Enemy> iterator = enemies.iterator();
         while (iterator.hasNext()) {
             Enemy enemy = iterator.next();
             if (board.hitBase(enemy.getPositionX(), enemy.getPositionY())) {
                 iterator.remove();
-                this.takeDamage(2);
+                this.takeDamage(enemy.getHealth());
             }
             if (enemy.getHealth() <= 0) {
                 iterator.remove();
                 System.out.println("Enemy destroyed");
+                money++;
             }
         }
     }
 
+    /**
+     * Ampuu vihollisia.
+     *
+     */
     private void shootEnemies(double deltaTime) {
         for (Tower tower : towers) {
             tower.findTarget(enemies);
             for (Enemy enemy : enemies) {
-                if (tower.canShoot()) {
-                    enemy.takeDamage(2);
-                } else {
-                    tower.countdown(deltaTime);
-                }
+                tower.shootTarget(enemy, deltaTime);
             }
         }
     }

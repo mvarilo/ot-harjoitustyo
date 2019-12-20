@@ -5,12 +5,14 @@
  */
 package towerdef.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * Peli toimii niin että viholliset tulevat aalloissa tämän luokan tehtävänä on
  * pitää siitä huolta aaltojen hallinnsta.
  */
-public class Wave {
+public class Wave implements Serializable {
 
     private int number;
     private int maxEnemies;
@@ -44,6 +46,9 @@ public class Wave {
         return this.number;
     }
 
+    /**
+     * Päivittää seuraavan kierroksen vaikeammaksi.
+     */
     public void update() {
         this.number++;
         this.maxEnemies = this.maxEnemies + 4;
@@ -51,6 +56,9 @@ public class Wave {
         this.enemy.speedUp();
     }
 
+    /**
+     * Luo viholliset laudalle
+     */
     public Enemy update(double deltaTime) {
         if (!isSpawningFinished()) {
             if (spawnFrame >= 0) {
