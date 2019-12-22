@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="towerdef.ui.TowerDefenseUI">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8.0.212" xmlns:fx="http://javafx.com/fxml/1" fx:controller="towerdef.ui.TowerDefenseUI">
     <children>
         <Button fx:id="button" layoutX="14.0" layoutY="461.0" onAction="#handleButtonTower" text="Buy a Tower" />
         <Label fx:id="label" layoutX="116.0" layoutY="431.0" minHeight="16" minWidth="69" prefHeight="55.0" prefWidth="396.0" />
