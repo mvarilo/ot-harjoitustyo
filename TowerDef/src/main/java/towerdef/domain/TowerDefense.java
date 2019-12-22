@@ -38,7 +38,7 @@ public class TowerDefense implements Serializable {
         this.board = new Board();
         astar = new Astar(board);
         astar.searchPriorityQueue();
-        board.visualize(astar.getPath());
+        //     board.visualize(astar.getPath());
         this.enemies = new ArrayList<>();
 
         Enemy newEnemy = new Enemy(board.getSpawnX(), board.getSpawnY(), 40);

@@ -14,4 +14,5 @@
 | 08.12. | 6    | Kuudennen viikon vaatimuksiin ja releaseen valmistelu |
 | 19.12. | 8   | Ammunnan säätämistä ja animointia |
 | 20.12. | 5   | Tallennuksen rakennus, dokumentaatiota, loppupalautuksen valmistelua |
-| yht   | 68   | | 
+| 22.12. | 4   | Pom-sähellys ja testejä |
+| yht   | 72   | | 

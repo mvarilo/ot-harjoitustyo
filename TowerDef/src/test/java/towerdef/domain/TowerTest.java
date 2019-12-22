@@ -57,7 +57,6 @@ public class TowerTest {
      */
     @Test
     public void testGetTargetNull() {
-        Tower instance = new Tower();
         assertEquals(null, tower.getTarget());
     }
 
@@ -66,7 +65,6 @@ public class TowerTest {
      */
     @Test
     public void testFindTargetAndCanShoot() {
-        System.out.println("findTarget");
         List<Enemy> targetList = new ArrayList<>();
         Enemy enemy = new Enemy(1.0, 1.0, 10);
         targetList.add(enemy);
@@ -78,7 +76,6 @@ public class TowerTest {
 
     @Test
     public void testFindTargetAndCannotShoot() {
-        System.out.println("findTarget");
         List<Enemy> targetList = new ArrayList<>();
         Enemy enemy = new Enemy(999.0, 999.0, 10);
         targetList.add(enemy);

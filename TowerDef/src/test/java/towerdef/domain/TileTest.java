@@ -96,7 +96,6 @@ public class TileTest {
 
     @Test
     public void testCompareToNegative() {
-        System.out.println("CompareTo");
         Tile instance = new Tile(2, 2);
         instance.setFScore(this.tile);
         this.tile.setFScore(instance);
@@ -107,7 +106,6 @@ public class TileTest {
     
     @Test
     public void testCompareToNeutral() {
-        System.out.println("CompareTo");
         Tile instance = new Tile(2, 2);
         instance.setFScore(this.tile);
         this.tile.setFScore(instance);
