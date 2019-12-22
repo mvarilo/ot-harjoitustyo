@@ -17,7 +17,7 @@ java -jar TowerDef-1.0-SNAPSHOT.jar
 Mikäli homma jostain syystä temppuilee (kuten allekirjoitetulla laitoksen koneella) käynnistä ohjelma oikealla Javan versiolla seuraavasti: 
 
 ```
-/usr/lib/jvm/java-8-openjdk-amd64/bin/java -jar target/app.jar
+/usr/lib/jvm/java-8-openjdk-amd64/bin/java -jar TowerDef-1.0-SNAPSHOT.jar
 ```
 
 ## Pelaaminen
