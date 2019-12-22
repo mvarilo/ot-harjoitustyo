@@ -58,6 +58,9 @@ public class Wave implements Serializable {
 
     /**
      * Luo viholliset laudalle
+     *
+     * @param deltaTime
+     * @return
      */
     public Enemy update(double deltaTime) {
         if (!isSpawningFinished()) {

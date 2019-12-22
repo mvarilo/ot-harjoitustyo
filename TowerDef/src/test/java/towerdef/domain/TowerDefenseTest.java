@@ -5,9 +5,7 @@
  */
 package towerdef.domain;
 
-import java.util.Iterator;
 import java.util.List;
-import towerdef.domain.TowerDefense;
 import static junit.framework.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,5 +96,10 @@ public class TowerDefenseTest {
         List<Tower> towers = towerDefense.getTowers();
         assertEquals(1.0, towers.get(0).getPositionX());
         assertEquals(1.0, towers.get(0).getPositionY());
+    }
+    
+    @Test
+    public void canUpdate() {
+        towerDefense.update(0);
     }
 }

@@ -10,7 +10,6 @@ package towerdef.domain;
  * @author MV
  */
 import java.util.ArrayList;
-import java.util.Stack;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -68,6 +68,10 @@ public class Enemy implements Serializable {
         this.speed += 10;
     }
 
+    public double getSpeed() {
+        return this.speed;
+    }
+
     public void takeDamage(int i) {
         health -= i;
     }

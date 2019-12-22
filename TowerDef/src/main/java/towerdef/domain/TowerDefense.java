@@ -117,6 +117,9 @@ public class TowerDefense implements Serializable {
         return this.board;
     }
 
+    /**
+     * Päivittää vihollisten tilan ja ampuu niitä torneilla
+     */
     public void update(double deltaTime) {
         spawnEnemies(deltaTime);
         moveEnemies(deltaTime);

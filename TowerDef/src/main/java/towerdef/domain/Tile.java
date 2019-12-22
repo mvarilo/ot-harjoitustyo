@@ -106,6 +106,10 @@ public class Tile implements Comparable<Tile>, Serializable {
     public boolean isObstacle() {
         return "WALL".equals(this.type) || "TOWER".equals(this.type);
     }
+    
+    public void setObstacle() {
+        this.type = "WALL";
+    }
 
     public int getFScore() {
         return this.fScore;

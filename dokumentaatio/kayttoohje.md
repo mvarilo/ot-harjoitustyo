@@ -14,6 +14,12 @@ Ohjelma käynnistetään komennolla
 java -jar TowerDef-1.0-SNAPSHOT.jar
 ```
 
+Mikäli homma jostain syystä temppuilee (kuten allekirjoitetulla laitoksen koneella) käynnistä ohjelma oikealla Javan versiolla seuraavasti: 
+
+```
+/usr/lib/jvm/java-8-openjdk-amd64/bin/java -jar target/app.jar
+```
+
 ## Pelaaminen
 
 Sovellus käynnistyy pelinäkymään, jossa pelaaja voi asettaa pelikentälle torneja, jotka ampuvat vihollisia.

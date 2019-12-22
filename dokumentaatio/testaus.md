@@ -14,7 +14,7 @@ Dao-luokan toiminnallisuus on testattu luomalla testeissä tilapäinen tiedosto 
 
 ### Testauskattavuus
 
-Käyttöliittymäkerrosta lukuunottamatta sovelluksen testauksen rivikattavuus on 68% ja haarautumakattavuus 53%
+Käyttöliittymäkerrosta lukuunottamatta sovelluksen testauksen rivikattavuus on 86% ja haarautumakattavuus 66%
 
 ![alt text](https://github.com/mvarilo/ot-harjoitustyo/blob/master/dokumentaatio/testauskattavuus.jpg)
 

@@ -5,14 +5,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8.0.212" xmlns:fx="http://javafx.com/fxml/1" fx:controller="towerdef.ui.TowerDefenseUI">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="towerdef.ui.TowerDefenseUI">
     <children>
-        <Button fx:id="button" layoutX="14.0" layoutY="461.0" onAction="#handleButtonTower" text="Buy a Tower" />
+        <Button fx:id="button" layoutX="14.0" layoutY="461.0" onAction="#handleButtonTower" prefHeight="25.0" prefWidth="90.0" text="Buy a Tower" />
         <Label fx:id="label" layoutX="116.0" layoutY="431.0" minHeight="16" minWidth="69" prefHeight="55.0" prefWidth="396.0" />
         <Canvas fx:id="canvas" height="400.0" layoutX="14.0" layoutY="50.0" onMouseReleased="#drawTower" width="600.0" />
         <Label fx:id="hp" layoutX="14.0" layoutY="14.0" text="HP: " />
-        <Label fx:id="gold" layoutX="66.0" layoutY="14.0" text="Gold:" />
-      <Label fx:id="wave" layoutX="123.0" layoutY="14.0" text="Wave:" />
-      <Button fx:id="waveButton" layoutX="14.0" layoutY="427.0" onAction="#handleButtonWave" prefHeight="25.0" prefWidth="81.0" text="Next Wave" />
+        <Label fx:id="gold" layoutX="90.0" layoutY="14.0" text="Gold:" />
+      <Label fx:id="wave" layoutX="165.0" layoutY="14.0" text="Wave:" />
+      <Button fx:id="waveButton" layoutX="14.0" layoutY="427.0" onAction="#handleButtonWave" prefHeight="25.0" prefWidth="90.0" text="Next Wave" />
     </children>
 </AnchorPane>
